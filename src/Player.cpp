@@ -2,12 +2,14 @@
 #include "Room.hpp"
 #include "fogpi/io.hpp"
 
+
 void Player::Start(Vec2 _pos) {
     m_character = 'P';
     m_position = _pos;
 }
 
-void Player::Update() {
+void Player::Update()
+ {
     //while(request_char("hit w to continue: ") != 'w') {}
 
     char directionInput;
@@ -40,7 +42,12 @@ void Player::Update() {
         break;
     }
 
+
     Vec2 tryPos = m_position + direction;
+
+    if (room->GetLocation(tryPos) == 'B') {
+        return;
+    }
 
     if (room->GetLocation(tryPos) == 'K') {
         m_keyCount++;
@@ -54,4 +61,11 @@ void Player::Update() {
     if (room->GetLocation(tryPos) == 'D') {
         room->OpenDoor(tryPos);
     }
-}
+
+   
+    
+};
+
+ if (CheckCollision(*this, *enemy)){
+        Fight(*this, *enemy);
+    };

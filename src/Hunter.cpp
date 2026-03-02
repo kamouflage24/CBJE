@@ -4,7 +4,7 @@
 
 
 void Hunter::Start(Vec2 _pos){
-    m_character = 'B';
+    m_character = 'H';
     m_position = _pos;
 }
 

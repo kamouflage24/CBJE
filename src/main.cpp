@@ -10,6 +10,7 @@
 #include "Dice.hpp"
 #include "Room.hpp"
 #include "Entity.hpp"
+#include "Combat.hpp"
 
 #include "DataStructures/LinkList.hpp"
 
