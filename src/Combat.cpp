@@ -15,34 +15,34 @@ void Fight(Entity& player, Entity& enemy);
 
 
 void Fight(Entity& player, Entity& enemy) {
-    print("A fight begins!\n");
+    printf("A fight begins!\n");
 
     while (player.m_health > 0 && enemy.m_health > 0) {
         int pRoll = RollDie();
         int eRoll = RollDie();
 
-        print("Player rolls: " + std::to_string(pRoll) + "\n");
-        print("Enemy rolls: " + std::to_string(eRoll) + "\n");
+        printf(("Player rolls: %d\n"),pRoll);
+        printf(("Enemy rolls: %d\n"),eRoll);
 
         if (pRoll > eRoll) {
             enemy.m_health -= 2;
-            print("You hit the enemy! Enemy HP: " + std::to_string(enemy.m_health) + "\n");
+            printf("You hit the enemy! Enemy HP: %d\n", enemy.m_health);
         }
         else if (eRoll > pRoll) {
             player.m_health -= 2;
-            print("Enemy hits you! Your HP: " + std::to_string(player.m_health) + "\n");
+            printf("Enemy hits you! Your HP: %d\n", player.m_health);
         }
         else {
-            print("Both attacks miss!\n");
+            printf("Both attacks miss!\n");
         }
 
         request_char("Press Enter to continue...");
     }
 
     if (player.m_health <= 0) {
-        print("You were defeated!\n");
+        printf("You were defeated!\n");
     } else {
-        print("Enemy defeated!\n");
+        printf("Enemy defeated!\n");
     }
 }
 

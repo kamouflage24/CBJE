@@ -1,8 +1,12 @@
 #include "Player.hpp"
 #include "Room.hpp"
+#include "Combat.hpp"
+#include "Brawler.hpp"
 #include "fogpi/io.hpp"
 
-
+void Player::SetBrawler(Brawler* b){
+    m_brawler = b;
+}
 void Player::Start(Vec2 _pos) {
     m_character = 'P';
     m_position = _pos;
@@ -62,10 +66,10 @@ void Player::Update()
         room->OpenDoor(tryPos);
     }
 
-   
+    bool CheckCollision(const Entity& a, const Entity& b);
+    void Fight(Player& player, Entity& b);
     
-};
-
- if (CheckCollision(*this, *enemy)){
-        Fight(*this, *enemy);
-    };
+    if (CheckCollision(*this, *m_brawler)) {
+        Fight(*this, *m_brawler);
+}
+    }
