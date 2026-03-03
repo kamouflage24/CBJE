@@ -70,8 +70,6 @@ void Player::Update()
         room->OpenDoor(tryPos);
     }
 
-    bool CheckCollision(const Entity& a, const Entity& b);
-    void Fight(Player& player, Entity& b);
     
     if (m_brawler && CheckCollision(*this, *m_brawler)) {
         Fight(*this, *m_brawler);

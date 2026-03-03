@@ -23,16 +23,16 @@ void Fight(Entity& player, Entity& brawler) {
     
     printf("A fight begins!\n");
 
-    while (player.m_health > 0 && enemy.m_health > 0) {
-        int pRoll = RollDie();
-        int eRoll = RollDie();
+    while (player.m_health > 0 && b.m_health > 0) {
+        int pRoll = RollDie(6);
+        int eRoll = RollDie(6);
 
         printf(("Player rolls: %d\n"),pRoll);
         printf(("Enemy rolls: %d\n"),eRoll);
 
         if (pRoll > eRoll) {
-            enemy.m_health -= 2;
-            printf("You hit the enemy! Enemy HP: %d\n", enemy.m_health);
+            b.m_health -= 2;
+            printf("You hit the enemy! Enemy HP: %d\n", b.m_health);
         }
         else if (eRoll > pRoll) {
             player.m_health -= 2;
