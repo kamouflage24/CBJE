@@ -7,11 +7,13 @@
 class Player : public Entity
 {
 public:
-    void Start(Vec2 _pos, Stats m_stats);
+    Player(Vec2 _pos, const Stats& stats);
     void SetBrawler(Brawler* b);
+    void Heal(int hp);
     void Update();
 private:
     Brawler* m_brawler = nullptr;
+    Stats m_stats;
     int m_keyCount = 0;
     
 };
