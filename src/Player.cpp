@@ -2,15 +2,19 @@
 #include "Room.hpp"
 #include "Combat.hpp"
 #include "Brawler.hpp"
+#include "Stats.hpp"
 #include "fogpi/io.hpp"
 
+Stats playerStats(1,0,8,5,3,2,1);
+Player player({5,5}, playerStats);
 void Player::SetBrawler(Brawler* b){
     m_brawler = b;
 }
-void Player::Start(Vec2 _pos) {
+Player::Player(Vec2 _pos, const Stats& stats) : m_stats(stats) {
     m_character = 'P';
     m_position = _pos;
 }
+
 
 void Player::Update()
  {
@@ -67,12 +71,12 @@ void Player::Update()
     }
 
     
-    if (CheckCollision(*this, *m_brawler)) {
+    if (m_brawler && CheckCollision(*this, *m_brawler)) {
         Fight(*this, *m_brawler);
-        }
-
-  
 }
+    }
 
+    void Player::Heal(int hp){
+        return m_stats.heal(hp);
 
-   
+    }

@@ -2,15 +2,19 @@
 
 #include "Entity.hpp"
 #include "Brawler.hpp"
+#include "Stats.hpp"
 
 
 class Player : public Entity
 {
 public:
-    void Start(Vec2 _pos);
+    Player(Vec2 _pos, const Stats& stats);
     void SetBrawler(Brawler* b);
+    void Heal(int hp);
     void Update();
 private:
     Brawler* m_brawler = nullptr;
+    Stats m_stats;
     int m_keyCount = 0;
+    
 };

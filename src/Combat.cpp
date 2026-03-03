@@ -1,6 +1,9 @@
 #include "Combat.hpp"
 #include <iostream>
 #include "fogpi/io.hpp"
+#include "Stats.hpp"
+#include "Player.hpp"
+#include "Brawler.hpp"
 
 
 
@@ -14,7 +17,10 @@ int RollDie(int sides) {
 
 
 
-void Fight(Entity& player, Entity& b) {
+void Fight(Entity& player, Entity& brawler) {
+    Stats playerStats;
+    Stats brawlerStats; 
+    
     printf("A fight begins!\n");
 
     while (player.m_health > 0 && b.m_health > 0) {
@@ -43,6 +49,8 @@ void Fight(Entity& player, Entity& b) {
         printf("You were defeated!\n");
     } else {
         printf("Enemy defeated!\n");
+        printf("You have %d hp remaining.\n", player.m_health);
+        printf("%d", playerStats);
     }
 }
 

@@ -65,7 +65,7 @@ void Room::Load(std::string _path)
             }
         }
     }
-
+   
     int doorCount = 0;
     for (int y = 0; y < m_map.size(); y++)
     {
@@ -73,10 +73,11 @@ void Room::Load(std::string _path)
         {
             if (m_map[y][x] == 'S')
             {
-                if (m_player == nullptr)
-                    m_player = new Player();
+                if (m_player == nullptr){ 
+                    Stats playerStats(1,0,8,5,3,2,1);
+                    m_player = new Player(Vec2(x,y), playerStats);
+                    }
                 
-                m_player->Start(Vec2(x,y));
                 m_map[y][x] = ' ';
             }
 
@@ -91,8 +92,8 @@ void Room::Load(std::string _path)
             }
         }
     }
-}
 
+}
 void Room::Update()
 {
     Draw();
@@ -151,3 +152,11 @@ void Room::OpenDoor(Vec2 _pos)
         }
     }
 }
+void Room::HealPlayer(int hp){
+    if(m_player)
+    {
+        m_player -> Heal(hp);
+    }
+   
+}
+
