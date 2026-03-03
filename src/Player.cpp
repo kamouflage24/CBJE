@@ -7,9 +7,10 @@
 void Player::SetBrawler(Brawler* b){
     m_brawler = b;
 }
-void Player::Start(Vec2 _pos) {
+void Player::Start(Vec2 _pos, Stats m_stats) {
     m_character = 'P';
     m_position = _pos;
+    m_stats = Stats(1, 0, 8, 5, 3, 2, 1);
 }
 
 void Player::Update()
