@@ -1,6 +1,9 @@
 #pragma once
 
 #include "fogpi/Math.hpp"
+#include "Stats.hpp"
+
+
 
 class Room;
 
@@ -12,7 +15,10 @@ class Entity {
         virtual void Update() {}
 
         Vec2 GetPosition() { return m_position; };
-        char Draw() { return m_character; }
+        char Draw() { return m_character;
+         }
+        virtual Stats& GetStats() = 0;  
+        virtual ~Entity() = default;
 
         Vec2 m_position;
     char m_character;

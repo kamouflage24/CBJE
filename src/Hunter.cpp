@@ -4,6 +4,7 @@
 #include "Stats.hpp"
 
 
+
 void Hunter::Start(Vec2 _pos, Stats m_stats){
     m_character = 'H';
     m_position = _pos;

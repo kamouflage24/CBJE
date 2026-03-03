@@ -15,6 +15,9 @@ Player::Player(Vec2 _pos, const Stats& stats) : m_stats(stats) {
     m_position = _pos;
 }
 
+Stats& Player::GetStats() {
+    return m_stats;
+}
 
 void Player::Update()
  {

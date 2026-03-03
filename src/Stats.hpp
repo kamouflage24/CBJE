@@ -44,15 +44,15 @@ class Stats{
         }
     }
 
-    void levelUp(int XP, int max_xp){
-        if (XP = max_xp){
-            level + 1;
-            health + 2;
-            current_health + 0;
-            strength + 1;
-            defence + 2;
-            speed + 3;
-            luck + 1;
+    void levelUp( int max_xp){
+        if (experience >= max_xp){
+            level += 1;
+            health += 2;
+            current_health += 0;
+            strength += 1;
+            defence += 2;
+            speed += 3;
+            luck += 1;
         }
     }
     bool Ded() const{

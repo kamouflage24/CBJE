@@ -4,6 +4,9 @@
 #include "Stats.hpp"
 #include "Player.hpp"
 #include "Brawler.hpp"
+#include "Entity.hpp"
+#include <random>
+
 
 
 
@@ -18,25 +21,30 @@ int RollDie(int sides) {
 
 
 void Fight(Entity& player, Entity& brawler) {
-    Stats playerStats;
-    Stats brawlerStats; 
     
     printf("A fight begins!\n");
 
-    while (player.m_health > 0 && b.m_health > 0) {
+    while (player.GetStats().getCurrentHealth() > 0 && 
+            brawler.GetStats().getCurrentHealth() > 0) {
         int pRoll = RollDie(6);
         int eRoll = RollDie(6);
 
-        printf(("Player rolls: %d\n"),pRoll);
-        printf(("Enemy rolls: %d\n"),eRoll);
+        printf("Player rolls: %d\n", pRoll);
+        printf("Enemy rolls: %d\n", eRoll);
 
         if (pRoll > eRoll) {
-            b.m_health -= 2;
-            printf("You hit the enemy! Enemy HP: %d\n", b.m_health);
+            int damage = 2;
+            brawler.GetStats().takeDamage(damage);
+
+            printf("You hit the enemy! Enemy HP: %d\n",
+                   brawler.GetStats().getCurrentHealth());
         }
         else if (eRoll > pRoll) {
-            player.m_health -= 2;
-            printf("Enemy hits you! Your HP: %d\n", player.m_health);
+            int damage = 2;
+            player.GetStats().takeDamage(damage);
+
+            printf("Enemy hits you! Your HP: %d\n",
+                   player.GetStats().getCurrentHealth());
         }
         else {
             printf("Both attacks miss!\n");
@@ -45,13 +53,17 @@ void Fight(Entity& player, Entity& brawler) {
         request_char("Press Enter to continue...");
     }
 
-    if (player.m_health <= 0) {
+    if (player.GetStats().getCurrentHealth() <= 0) {
         printf("You were defeated!\n");
     } else {
         printf("Enemy defeated!\n");
-        printf("You have %d hp remaining.\n", player.m_health);
-        printf("%d", playerStats);
+        printf("You have %d hp remaining.\n", player.GetStats().getCurrentHealth());
+        
     }
+
+    player.GetStats().addExperience(10);
+        player.GetStats().levelUp(20);
+
 }
 
 bool CheckCollision(const Entity& a, const Entity& b) {

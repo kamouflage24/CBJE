@@ -10,6 +10,7 @@ class Player : public Entity
 public:
     Player(Vec2 _pos, const Stats& stats);
     void SetBrawler(Brawler* b);
+    Stats& GetStats() override; 
     void Heal(int hp);
     void Update();
     bool Ded() const;

@@ -11,6 +11,9 @@
 #include "Room.hpp"
 #include "Entity.hpp"
 #include "Combat.hpp"
+#include "Player.hpp"
+#include "Brawler.hpp"
+#include "Stats.hpp"
 
 #include "DataStructures/LinkList.hpp"
 
