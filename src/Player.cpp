@@ -5,8 +5,8 @@
 #include "Stats.hpp"
 #include "fogpi/io.hpp"
 
-Stats playerStats(1,0,8,5,3,2,1);
-Player player({5,5}, playerStats);
+//Stats playerStats(1,0,8,5,3,2,1);
+//Player player({5,5}, playerStats);
 void Player::SetBrawler(Brawler* b){
     m_brawler = b;
 }
@@ -75,10 +75,19 @@ void Player::Update()
     
     if (m_brawler && CheckCollision(*this, *m_brawler)) {
         Fight(*this, *m_brawler);
-}
+} 
+    if(m_stats.Ded()){
+        printf("Back to the lobby with thee!!!");
+        exit(0);
     }
+}
 
     void Player::Heal(int hp){
-        return m_stats.heal(hp);
+        m_stats.heal(hp);
 
     }
+
+    bool Player::Ded() const{
+        return m_stats.Ded();
+    }
+   

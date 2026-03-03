@@ -11,6 +11,7 @@ public:
     void SetBrawler(Brawler* b);
     void Heal(int hp);
     void Update();
+    bool Ded() const;
 private:
     Brawler* m_brawler = nullptr;
     Stats m_stats;

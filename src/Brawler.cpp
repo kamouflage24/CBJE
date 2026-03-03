@@ -6,7 +6,7 @@
 void Brawler::Start(Vec2 _pos, Stats m_stats){
     m_character = 'B';
     m_position = _pos;
-    m_stats = Stats(1, 2, 3, 4, 5 ,6 ,7);
+    m_stats = Stats(1, 2, 3, 4, 5 ,6 ,7, 2);
     
 }
 

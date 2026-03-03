@@ -1,11 +1,13 @@
 #pragma once
 
 #include "Entity.hpp"
+#include "Stats.hpp"
 
 class Hunter : public Entity{
 public:
-    void Start(Vec2 _pos);
+    void Start(Vec2 _pos, Stats m_stats);
     void Update(const Vec2& playerPos, Room* room);
+    bool Ded() const;
 private:
     int m_keyCount = 0;
 };

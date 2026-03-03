@@ -74,7 +74,7 @@ void Room::Load(std::string _path)
             if (m_map[y][x] == 'S')
             {
                 if (m_player == nullptr){ 
-                    Stats playerStats(1,0,8,5,3,2,1);
+                    Stats playerStats(1,0,8,5,3,2,1,5);
                     m_player = new Player(Vec2(x,y), playerStats);
                     }
                 
