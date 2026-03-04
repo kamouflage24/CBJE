@@ -7,8 +7,9 @@
 
 //Stats playerStats(1,0,8,5,3,2,1);
 //Player player({5,5}, playerStats);
-void Player::SetBrawler(Brawler* b){
-    m_brawler = b;
+
+void Player::SetBrawler(Brawler* brawler) {
+    m_brawler = brawler;
 }
 Player::Player(Vec2 _pos, const Stats& stats) : m_stats(stats) {
     m_character = 'P';
@@ -20,7 +21,7 @@ Stats& Player::GetStats() {
 }
 
 void Player::Update()
- {
+{
     //while(request_char("hit w to continue: ") != 'w') {}
 
     char directionInput;
@@ -53,10 +54,14 @@ void Player::Update()
         break;
     }
 
+    //printf("Player pos: %.0f %.0f\n", m_position.x, m_position.y);
+    //printf("Enemy pos: %.0f %.0f\n", m_brawler->GetPosition().x, m_brawler->GetPosition().y);
 
     Vec2 tryPos = m_position + direction;
 
-    if (room->GetLocation(tryPos) == 'B') {
+    if (m_brawler && m_brawler->GetPosition() == tryPos)
+    {
+        Fight(*this, *m_brawler);
         return;
     }
 
@@ -74,21 +79,19 @@ void Player::Update()
     }
 
     
-    if (m_brawler && CheckCollision(*this, *m_brawler)) {
-        Fight(*this, *m_brawler);
-} 
+    
     if(m_stats.Ded()){
         printf("Back to the lobby with thee!!!");
         exit(0);
     }
 }
 
-    void Player::Heal(int hp){
-        m_stats.heal(hp);
+void Player::Heal(int hp){
+    m_stats.heal(hp);
 
-    }
+}
 
-    bool Player::Ded() const{
-        return m_stats.Ded();
-    }
+bool Player::Ded() const{
+    return m_stats.Ded();
+}
    

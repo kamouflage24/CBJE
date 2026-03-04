@@ -64,6 +64,11 @@ void Fight(Entity& player, Entity& brawler) {
     player.GetStats().addExperience(10);
         player.GetStats().levelUp(20);
 
+    if (brawler.GetStats().getCurrentHealth() <= 0) {
+    printf("Enemy defeated!\n");
+    printf("You have %d hp remaining.\n", player.GetStats().getCurrentHealth());
+    }
+
 }
 
 bool CheckCollision(const Entity& a, const Entity& b) {

@@ -1,6 +1,7 @@
 #include "Room.hpp"
 
 #include "Player.hpp"
+#include "Brawler.hpp"
 
 #include <fstream>
 #include <string>
@@ -81,6 +82,17 @@ void Room::Load(std::string _path)
                 m_map[y][x] = ' ';
             }
 
+            if (m_map[y][x] == 'B')
+            {
+                Stats enemyStats(1,0,6,4,2,2,1,2);
+                m_brawler = new Brawler(Vec2(x,y), enemyStats);
+
+                if (m_player)
+                    m_player->SetBrawler(m_brawler);
+
+                m_map[y][x] = ' ';
+            }
+
             if (m_map[y][x] == 'D' || m_map[y][x] == 'L')
             {
                 if (m_doors.size() - 1 >= doorCount)
@@ -96,12 +108,18 @@ void Room::Load(std::string _path)
 }
 void Room::Update()
 {
-    Draw();
-    if (m_player != nullptr)
+   if (m_player)
     {
         m_player->room = this;
         m_player->Update();
     }
+
+    if (m_brawler && m_player)
+    {
+        m_brawler->Update(m_player, this);
+    }
+
+    Draw();
 }
 
 void Room::Draw()
@@ -128,6 +146,11 @@ char Room::GetLocation(Vec2 _pos)
         if (m_player->GetPosition() == _pos)
             return m_player->Draw();
     
+
+    if (m_brawler != nullptr)
+        if (m_brawler->GetPosition() == _pos)
+            return m_brawler->Draw();
+
     return m_map[_pos.y][_pos.x];
 }
 
