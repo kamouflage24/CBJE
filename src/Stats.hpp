@@ -33,8 +33,9 @@ class Stats{
     void addExperience(int XP) { experience += XP; }
 
     void takeDamage(int dmg){
-        health -= dmg;
-        health == current_health;      
+        current_health -= dmg;
+       if(current_health < 0)
+       current_health = 0;      
     }
 
     void heal(int hp){

@@ -33,14 +33,21 @@ void Fight(Entity& player, Entity& brawler) {
         printf("Enemy rolls: %d\n", eRoll);
 
         if (pRoll > eRoll) {
-            int damage = 2;
+            int damage = player.GetStats().getStrength() - 
+            brawler.GetStats().getDefence();
+            if(damage < 1)
+            damage = 1;
             brawler.GetStats().takeDamage(damage);
 
             printf("You hit the enemy! Enemy HP: %d\n",
                    brawler.GetStats().getCurrentHealth());
         }
         else if (eRoll > pRoll) {
-            int damage = 2;
+            
+            int damage = brawler.GetStats().getStrength() - 
+            player.GetStats().getDefence();
+            if(damage < 1)
+            damage = 1;
             player.GetStats().takeDamage(damage);
 
             printf("Enemy hits you! Your HP: %d\n",
@@ -55,10 +62,10 @@ void Fight(Entity& player, Entity& brawler) {
 
     if (player.GetStats().getCurrentHealth() <= 0) {
         printf("You were defeated!\n");
+        exit(1);
     } else {
         printf("Enemy defeated!\n");
         printf("You have %d hp remaining.\n", player.GetStats().getCurrentHealth());
-        
     }
 
     player.GetStats().addExperience(10);

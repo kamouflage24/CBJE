@@ -113,11 +113,27 @@ void Room::Update()
         m_player->room = this;
         m_player->Update();
     }
+    if(m_brawler){
+        m_brawler->Update(m_player,this);
 
+        if(m_brawler->GetStats().Ded()){
+            printf("Brawler defeated!\n");
+
+            m_player->GetStats().getGold();
+            delete m_brawler;
+            m_brawler = nullptr;
+        }
+    }
     if (m_brawler && m_player)
     {
         m_brawler->Update(m_player, this);
     }
+
+    //if(m_player->GetStats().getCurrentHealth(0)){
+    //     exit(1)
+    // }
+    // if(m_brawler->GetStats().getCurrentHealth(0)){
+    //     delete m_brawler;
 
     Draw();
 }

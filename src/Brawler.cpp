@@ -20,19 +20,24 @@ Stats& Brawler::GetStats() {
 
 void Brawler::Update(Player* player, Room* room){
 
-    if (m_position == player->GetPosition())
-    {
-        printf("BRAWLER triggered fight!\n");
-        Fight(*player, *this);
-        return;
-    }
+    
 
-Vec2 direction;
+Vec2 direction(0.0f);
 if(player->GetPosition().x > m_position.x) direction.x = 1;
 else if(player->GetPosition().x < m_position.x) direction.x = -1;
 
 if (player->GetPosition().y > m_position.y) direction.y = 1;
 else if(player->GetPosition().y < m_position.y) direction.y = -1;
 
+Vec2 trypos = m_position + direction;
+if(room->GetLocation(trypos) == ' '){
+    m_position = trypos;
+}
+if (m_position == player->GetPosition())
+    {
+        printf("BRAWLER triggered fight!\n");
+        Fight(*player, *this);
+        return;
+    }
 
 }
