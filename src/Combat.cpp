@@ -62,19 +62,23 @@ void Fight(Entity& player, Entity& brawler) {
 
     if (player.GetStats().getCurrentHealth() <= 0) {
         printf("You were defeated!\n");
+        printf("Gold lost: %d\n", player.GetStats().getGold());
         exit(1);
     } else {
         printf("Enemy defeated!\n");
         printf("You have %d hp remaining.\n", player.GetStats().getCurrentHealth());
-    }
+        printf("Your current stats:\n");
+        printf("HP: %d\n", player.GetStats().getCurrentHealth());
+        printf("Strength: %d\n", player.GetStats().getStrength());
+        printf("Defence: %d\n", player.GetStats().getDefence());
+        printf("Speed: %d\n", player.GetStats().getSpeed());
+        printf("Luck: %d\n", player.GetStats().getLuck());
 
-    player.GetStats().addExperience(10);
+        player.GetStats().addExperience(10);
         player.GetStats().levelUp(20);
-
-    if (brawler.GetStats().getCurrentHealth() <= 0) {
-    printf("Enemy defeated!\n");
-    printf("You have %d hp remaining.\n", player.GetStats().getCurrentHealth());
     }
+
+    
 
 }
 
