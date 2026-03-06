@@ -2,10 +2,13 @@
 
 #include "Player.hpp"
 #include "Brawler.hpp"
-
+#include "Combat.hpp"
+#include "Entity.hpp"
 #include <fstream>
 #include <string>
-
+bool m_checkCollision(const Entity& a, const Entity& b){
+    return a.GetPosition().x == b.GetPosition().x && a.GetPosition().y == b.GetPosition().y;
+}
 void Room::Load(std::string _path)
 {
     m_map.clear();
@@ -124,10 +127,12 @@ void Room::Update()
             m_brawler = nullptr;
         }
     }
-    if (m_brawler && m_player)
-    {
-        m_brawler->Update(m_player, this);
+    if(m_player && m_brawler){
+        if (CheckCollision(*m_player, *m_brawler)){
+            Fight(*m_player, *m_brawler);
+        }
     }
+   
 
     //if(m_player->GetStats().getCurrentHealth(0)){
     //     exit(1)
