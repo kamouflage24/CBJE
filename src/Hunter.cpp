@@ -2,27 +2,36 @@
 #include "Room.hpp"
 #include "fogpi/io.hpp"
 #include "Stats.hpp"
+#include "Combat.hpp"
+#include "Player.hpp"
 
 
-
-void Hunter::Start(Vec2 _pos, Stats m_stats){
+Hunter::Hunter(Vec2 pos, const Stats& stats): m_stats(stats)
+   
+{
     m_character = 'H';
-    m_position = _pos;
-    m_stats = Stats(1 ,2, 5, 2, 2, 8, 5, 4);
+    m_position = pos;
 }
 
-void Hunter::Update(const Vec2& playerPos, Room* room){
 
-Vec2 direction;
-if(playerPos.x > m_position.x) direction.x = 1;
-else if(playerPos.y < m_position.x) direction.x = -1;
-
-if (playerPos.y > m_position.y) direction.y = 1;
-else if(playerPos.y < m_position.y) direction.y = -1;
-
-Vec2 tryPos = m_position + direction;
-
-if(room ->GetLocation(tryPos) == ' '){
-    
+Stats& Hunter::GetStats() {
+    return m_stats;
 }
+
+void Hunter::Update(Player* player, Room* room){
+Vec2 direction(0.0f);
+
+Vec2 trypos = m_position + direction;
+
+if(room->GetLocation(trypos) == ' ' || trypos == player->GetPosition()){
+    m_position = trypos;
+}
+
+if (m_position == player->GetPosition())
+    {
+        printf("Hunter triggered fight!\n");
+        Fight(*player, *this);
+        return;
+    }
+
 }

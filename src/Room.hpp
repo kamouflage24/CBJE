@@ -3,6 +3,7 @@
 #include <vector>
 #include "Door.hpp"
 #include "Brawler.hpp"
+#include "Hunter.hpp"
 
 class Entity;
 class Player;
@@ -16,12 +17,14 @@ public:
     char GetLocation(Vec2 _pos);
     void ClearLocation(Vec2 _pos);
     void OpenDoor(Vec2 _pos);
+    void UnlockedDoor();
     void HealPlayer(int hp);
 private:
     std::vector<Entity*> m_entities;
     Player* m_player = nullptr;
     std::vector<Monster*> m_monsters;
     Brawler* m_brawler = nullptr;
+    Hunter* m_hunter = nullptr;
     std::vector<std::vector<char>> m_map;
     std::vector<Door> m_doors;
 };
