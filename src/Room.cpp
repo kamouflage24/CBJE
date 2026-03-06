@@ -70,11 +70,15 @@ void Room::Load(std::string _path)
         }
     }
    
+   
+
     int doorCount = 0;
     for (int y = 0; y < m_map.size(); y++)
     {
         for (int x = 0; x < m_map[y].size(); x++)
         {
+                char tile = m_map[y][x];
+            
             if (m_map[y][x] == 'S')
             {
                 if (m_player == nullptr){ 
@@ -105,6 +109,18 @@ void Room::Load(std::string _path)
                     doorCount++;
                 }
             }
+
+            if (tile == ' ')
+            {
+                int chance = rand() % 100;
+
+                if (chance < 5) // 5% chance
+                {
+                    m_map[y][x] = 'T';
+                    continue;
+                }
+            }
+
         }
     }
 
