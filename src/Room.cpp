@@ -2,6 +2,7 @@
 
 #include "Player.hpp"
 #include "Brawler.hpp"
+#include "Hunter.hpp"
 #include "Combat.hpp"
 #include "Entity.hpp"
 #include <fstream>
@@ -99,6 +100,16 @@ void Room::Load(std::string _path)
 
                 m_map[y][x] = ' ';
             }
+             if (m_map[y][x] == 'H')
+            {
+                Stats enemyStats(1,0,6,4,2,2,1,2);
+                m_hunter = new Hunter(Vec2(x,y), enemyStats);
+
+                if (m_player)
+                    m_player->SetHunter(m_hunter);
+
+                m_map[y][x] = ' ';
+            }
 
             if (m_map[y][x] == 'D' || m_map[y][x] == 'L')
             {
@@ -141,11 +152,37 @@ void Room::Update()
             m_player->GetStats().getGold();
             delete m_brawler;
             m_brawler = nullptr;
+            UnlockedDoor();
         }
+    }
+    if(m_hunter){
+        m_hunter->Update(m_player,this);
+
+        if(m_hunter->GetStats().Ded()){
+            printf("Hunter defeated!\n");
+
+            m_player->GetStats().getGold();
+            delete m_hunter;
+            m_hunter = nullptr;
+            UnlockedDoor();
+        }
+    }
+    if(m_hunter && m_brawler){
+        m_brawler->Update(m_player,this);
+        m_hunter->Update(m_player,this);
+       if (m_hunter->GetStats().Ded() && m_brawler->GetStats().Ded()){
+        UnlockedDoor();
+       }
+
     }
     if(m_player && m_brawler){
         if (CheckCollision(*m_player, *m_brawler)){
             Fight(*m_player, *m_brawler);
+        }
+    }
+    if(m_player && m_hunter){
+        if (CheckCollision(*m_player, *m_hunter)){
+            Fight(*m_player, *m_hunter);
         }
     }
    
@@ -209,6 +246,15 @@ void Room::OpenDoor(Vec2 _pos)
         if (m_doors[i].pos == _pos)
         {
             Load(m_doors[i].path.c_str());
+        }
+    }
+}
+void Room::UnlockedDoor(){
+    for(int y = 0; y < m_doors.size(); y++){
+        for(int x = 0; x < m_map.size(); x++){
+            if(m_map[y][x] == 'L'){
+                m_map[y][x] = 'D';
+            }
         }
     }
 }

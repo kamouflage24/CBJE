@@ -4,6 +4,7 @@
 #include "Stats.hpp"
 #include "Player.hpp"
 #include "Brawler.hpp"
+#include "Hunter.hpp"
 #include "Entity.hpp"
 #include <random>
 
@@ -20,12 +21,11 @@ int RollDie(int sides) {
 
 
 
-void Fight(Entity& player, Entity& brawler) {
-    
+void Fight(Entity& player, Entity& b) {
     printf("A fight begins!\n");
 
     while (player.GetStats().getCurrentHealth() > 0 && 
-            brawler.GetStats().getCurrentHealth() > 0) {
+            b.GetStats().getCurrentHealth() > 0) {
         int pRoll = RollDie(6);
         int eRoll = RollDie(6);
 
@@ -34,17 +34,17 @@ void Fight(Entity& player, Entity& brawler) {
 
         if (pRoll > eRoll) {
             int damage = player.GetStats().getStrength() - 
-            brawler.GetStats().getDefence();
+            b.GetStats().getDefence();
             if(damage < 1)
             damage = 1;
-            brawler.GetStats().takeDamage(damage);
+            b.GetStats().takeDamage(damage);
 
             printf("You hit the enemy! Enemy HP: %d\n",
-                   brawler.GetStats().getCurrentHealth());
+                   b.GetStats().getCurrentHealth());
         }
         else if (eRoll > pRoll) {
             
-            int damage = brawler.GetStats().getStrength() - 
+            int damage = b.GetStats().getStrength() - 
             player.GetStats().getDefence();
             if(damage < 1)
             damage = 1;
@@ -59,7 +59,6 @@ void Fight(Entity& player, Entity& brawler) {
 
         request_char("Press Enter to continue...");
     }
-
     if (player.GetStats().getCurrentHealth() <= 0) {
         printf("You were defeated!\n");
         printf("Gold lost: %d\n", player.GetStats().getGold());

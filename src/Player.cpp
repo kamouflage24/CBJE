@@ -11,8 +11,11 @@
 void Player::SetBrawler(Brawler* brawler) {
     m_brawler = brawler;
 }
+void Player::SetHunter(Hunter* hunter) {
+    m_hunter = hunter;
+}
 Player::Player(Vec2 _pos, const Stats& stats) : m_stats(stats) {
-    m_character = 'P';
+    m_character = 'S';
     m_position = _pos;
 }
 
@@ -90,6 +93,12 @@ void Player::Update()
     if (m_brawler && m_brawler->GetPosition() == tryPos)
     {
         Fight(*this, *m_brawler);
+        return;
+    }
+    
+    if (m_hunter && m_hunter->GetPosition() == tryPos)
+    {
+        Fight(*this, *m_hunter);
         return;
     }
 
