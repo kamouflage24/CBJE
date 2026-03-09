@@ -2,6 +2,8 @@
 #include "Room.hpp"
 #include "Combat.hpp"
 #include "Brawler.hpp"
+#include "Hunter.hpp"
+#include "Manticore.hpp"
 #include "Stats.hpp"
 #include "fogpi/io.hpp"
 
@@ -13,6 +15,9 @@ void Player::SetBrawler(Brawler* brawler) {
 }
 void Player::SetHunter(Hunter* hunter) {
     m_hunter = hunter;
+}
+void Player::SetManticore(Manticore* manticore) {
+    m_manticore = manticore;
 }
 Player::Player(Vec2 _pos, const Stats& stats) : m_stats(stats) {
     m_character = 'S';

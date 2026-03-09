@@ -13,6 +13,7 @@
 #include "Combat.hpp"
 #include "Player.hpp"
 #include "Brawler.hpp"
+#include "Manticore.hpp"
 #include "Stats.hpp"
 
 #include "DataStructures/LinkList.hpp"
