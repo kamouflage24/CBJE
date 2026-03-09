@@ -3,6 +3,7 @@
 #include "Player.hpp"
 #include "Brawler.hpp"
 #include "Hunter.hpp"
+#include "Manticore.hpp"
 #include "Combat.hpp"
 #include "Entity.hpp"
 #include <fstream>
@@ -79,11 +80,15 @@ void Room::Load(std::string _path)
         }
     }
    
+   
+
     int doorCount = 0;
     for (int y = 0; y < m_map.size(); y++)
     {
         for (int x = 0; x < m_map[y].size(); x++)
         {
+                char tile = m_map[y][x];
+            
             if (m_map[y][x] == 'S')
             {
                 if (m_player == nullptr){ 
@@ -107,7 +112,8 @@ void Room::Load(std::string _path)
 
                 m_map[y][x] = ' ';
             }
-             if (m_map[y][x] == 'H')
+
+            if (m_map[y][x] == 'H')
             {
                 Stats enemyStats(1,0,6,4,2,2,1,2);
                 m_hunter = new Hunter(Vec2(x,y), enemyStats);
@@ -116,8 +122,38 @@ void Room::Load(std::string _path)
                     m_player->SetHunter(m_hunter);
 
                 m_map[y][x] = ' ';
-            }
+                }
 
+            if (m_map[y][x] == 'M')
+            {
+                Stats enemyStats(10,7,11,5,7,6,4,10);
+                 m_manticore = new Manticore(Vec2(x,y), enemyStats);
+
+                if (m_player)
+                    m_player->SetManticore(m_manticore);
+
+                m_map[y][x] = ' ';
+            }
+    
+            if (m_map[y][x] == 'T')
+            {
+                int chance = rand() % 100;
+
+                if (chance < 50) // 50% chance
+                {
+                    printf("You found a health potion!\n");
+                    HealPlayer(5);
+                }
+                else if (chance < 80) // 30% chance
+                {
+                    printf("You found a gold coin!\n");
+                    m_player->GetStats().addExperience(10);
+                }
+                else // 20% chance
+                { 
+                    printf("The chest was empty.\n");
+                }
+            }
             if (m_map[y][x] == 'D' || m_map[y][x] == 'L')
             {
                 if (m_doors.size() - 1 >= doorCount)
@@ -127,9 +163,27 @@ void Room::Load(std::string _path)
                     doorCount++;
                 }
             }
+
+            if (tile == ' ')
+            {
+                int chance = rand() % 100;
+
+                if (chance < 5) // 5% chance
+                {
+                    m_map[y][x] = 'T';
+                    continue;
+                }
+            }
+
         }
     }
 
+}
+void Room::Enemies(){
+    if(m_brawler == nullptr && m_hunter == nullptr)
+    {
+        UnlockedDoor();
+    }
 }
 void Room::Enemies(){
     if(m_brawler == nullptr && m_hunter == nullptr)
@@ -192,7 +246,24 @@ void Room::Update()
             Fight(*m_player, *m_hunter);
         }
     }
-   
+
+    if(m_player && m_manticore){
+        if (CheckCollision(*m_player, *m_manticore)){
+            Fight(*m_player, *m_manticore);
+        }
+    }
+
+     if(m_player && m_manticore){
+        m_manticore->Update(m_player,this);
+
+        if(m_manticore->GetStats().Ded()){
+            printf("Manticore defeated!\n");
+
+            m_player->GetStats().getGold();
+            delete m_manticore;
+            m_manticore = nullptr;
+        }
+    }
 
     //if(m_player->GetStats().getCurrentHealth(0)){
     //     exit(1)
@@ -236,6 +307,9 @@ char Room::GetLocation(Vec2 _pos)
     //     if (m_hunter->GetPosition() == _pos)
     //         return m_hunter->Draw();
 
+    if (m_manticore != nullptr)
+        if (m_manticore->GetPosition() == _pos)
+            return m_manticore->Draw();
     return m_map[_pos.y][_pos.x];
 }
 

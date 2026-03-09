@@ -4,6 +4,8 @@
 #include "Door.hpp"
 #include "Brawler.hpp"
 #include "Hunter.hpp"
+#include "Manticore.hpp"
+
 
 class Entity;
 class Player;
@@ -26,6 +28,7 @@ private:
     std::vector<Monster*> m_monsters;
     Brawler* m_brawler = nullptr;
     Hunter* m_hunter = nullptr;
+    Manticore* m_manticore = nullptr;
     std::vector<std::vector<char>> m_map;
     std::vector<Door> m_doors;
 };

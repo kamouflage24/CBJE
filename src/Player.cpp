@@ -15,6 +15,9 @@ void Player::SetBrawler(Brawler* brawler) {
 void Player::SetHunter(Hunter* hunter) {
     m_hunter = hunter;
 }
+void Player::SetManticore(Manticore* manticore) {
+    m_manticore = manticore;
+}
 Player::Player(Vec2 _pos, const Stats& stats) : m_stats(stats) {
     m_character = 'S';
     m_position = _pos;
@@ -58,10 +61,38 @@ void Player::Update()
         break;
     }
 
+    
+
     //printf("Player pos: %.0f %.0f\n", m_position.x, m_position.y);
     //printf("Enemy pos: %.0f %.0f\n", m_brawler->GetPosition().x, m_brawler->GetPosition().y);
 
     Vec2 tryPos = m_position + direction;
+
+    if (room->GetLocation(tryPos) == 'T')
+    {
+        printf("You found a treasure chest!\n");
+
+        int chance = rand() % 100;
+
+        if (chance < 50)
+        {
+            printf("You found a key!\n");
+            m_keyCount++;
+        }
+        else
+        {
+            printf("The chest was empty.\n");
+        }
+
+        room->ClearLocation(tryPos);
+        return;
+    }
+
+    if (room->GetLocation(tryPos) == ' ')
+    {
+        m_position = tryPos;
+    }
+
 
     if (m_brawler && m_brawler->GetPosition() == tryPos)
     {
