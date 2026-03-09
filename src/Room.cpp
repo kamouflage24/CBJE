@@ -8,13 +8,21 @@
 #include "Entity.hpp"
 #include <fstream>
 #include <string>
-bool m_checkCollision(const Entity& a, const Entity& b){
+bool m_CheckCollision(const Entity& a, const Entity& b){
     return a.GetPosition().x == b.GetPosition().x && a.GetPosition().y == b.GetPosition().y;
 }
 void Room::Load(std::string _path)
 {
     m_map.clear();
     m_doors.clear();
+    if(m_brawler){
+        delete m_brawler;
+        m_brawler = nullptr;
+    }
+    if(m_hunter){
+        delete m_hunter;
+        m_hunter = nullptr;
+    }
 
     std::ifstream file;
     file.open(_path);
@@ -87,6 +95,9 @@ void Room::Load(std::string _path)
                     Stats playerStats(1,0,8,5,3,2,5,5);
                     m_player = new Player(Vec2(x,y), playerStats);
                     }
+                else{
+                    m_player->SetPosition(Vec2(x,y));
+                }
                 
                 m_map[y][x] = ' ';
             }
@@ -168,6 +179,18 @@ void Room::Load(std::string _path)
     }
 
 }
+void Room::Enemies(){
+    if(m_brawler == nullptr && m_hunter == nullptr)
+    {
+        UnlockedDoor();
+    }
+}
+void Room::Enemies(){
+    if(m_brawler == nullptr && m_hunter == nullptr)
+    {
+        UnlockedDoor();
+    }
+}
 void Room::Update()
 {
    if (m_player)
@@ -184,7 +207,12 @@ void Room::Update()
             m_player->GetStats().getGold();
             delete m_brawler;
             m_brawler = nullptr;
-            UnlockedDoor();
+            if(m_player){
+                m_player->SetBrawler(nullptr);
+                
+            }
+            Enemies();
+            return;
         }
     }
     if(m_hunter){
@@ -194,12 +222,20 @@ void Room::Update()
             printf("Hunter defeated!\n");
 
             m_player->GetStats().getGold();
+           
             delete m_hunter;
             m_hunter = nullptr;
-            UnlockedDoor();
+            if(m_player){
+                m_player->SetHunter(nullptr);
+                
+                
+            }
+            Enemies();
+            
+            return;
+            
         }
     }
-    
     if(m_player && m_brawler){
         if (CheckCollision(*m_player, *m_brawler)){
             Fight(*m_player, *m_brawler);
@@ -252,7 +288,7 @@ void Room::Draw()
 
 char Room::GetLocation(Vec2 _pos)
 {
-    if (_pos.y >= m_map.size())
+    if (_pos.y < 0 || _pos.y >= m_map.size())
         return ' ';
     
     if (_pos.x >= m_map[_pos.y].size())
@@ -266,6 +302,10 @@ char Room::GetLocation(Vec2 _pos)
     if (m_brawler != nullptr)
         if (m_brawler->GetPosition() == _pos)
             return m_brawler->Draw();
+            //hunter is invisible; Trust its a feature
+    // if (m_hunter != nullptr)
+    //     if (m_hunter->GetPosition() == _pos)
+    //         return m_hunter->Draw();
 
     if (m_manticore != nullptr)
         if (m_manticore->GetPosition() == _pos)
@@ -288,15 +328,19 @@ void Room::OpenDoor(Vec2 _pos)
 {
     for(int i = 0; i < m_doors.size(); i++)
     {
+        if(m_player){
+            HealPlayer(3);
+        }
         if (m_doors[i].pos == _pos)
         {
             Load(m_doors[i].path.c_str());
+            
         }
     }
 }
 void Room::UnlockedDoor(){
-    for(int y = 0; y < m_doors.size(); y++){
-        for(int x = 0; x < m_map.size(); x++){
+    for(int y = 0; y < m_map.size(); y++){
+        for(int x = 0; x < m_map[y].size(); x++){
             if(m_map[y][x] == 'L'){
                 m_map[y][x] = 'D';
             }

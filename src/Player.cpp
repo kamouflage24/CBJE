@@ -3,7 +3,6 @@
 #include "Combat.hpp"
 #include "Brawler.hpp"
 #include "Hunter.hpp"
-#include "Manticore.hpp"
 #include "Stats.hpp"
 #include "fogpi/io.hpp"
 
