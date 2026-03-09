@@ -12,6 +12,7 @@ class Monster;
 class Room {
 public:
     void Load(std::string _path);
+    void Enemies();
     void Draw();
     void Update();
     char GetLocation(Vec2 _pos);

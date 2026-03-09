@@ -2,6 +2,7 @@
 #include "Room.hpp"
 #include "Combat.hpp"
 #include "Brawler.hpp"
+#include "Hunter.hpp"
 #include "Stats.hpp"
 #include "fogpi/io.hpp"
 
