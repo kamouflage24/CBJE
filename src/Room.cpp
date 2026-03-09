@@ -252,15 +252,14 @@ void Room::ClearLocation(Vec2 _pos)
 
 void Room::OpenDoor(Vec2 _pos)
 {
-    for(int i = 0; i < m_doors.size(); i++)
-    {
-        if(m_player){
-            HealPlayer(3);
-        }
+    for(int i = 0; i < m_doors.size(); i++){
+   
         if (m_doors[i].pos == _pos)
-        {
-            Load(m_doors[i].path.c_str());
-            
+            { 
+            if(m_player){
+                HealPlayer(3); 
+            } 
+        Load(m_doors[i].path.c_str());
         }
     }
 }
@@ -274,9 +273,18 @@ void Room::UnlockedDoor(){
     }
 }
 void Room::HealPlayer(int hp){
-    if(m_player)
+    
+        if(m_player)
     {
+        Stats& stats = m_player->GetStats();
+        if(stats.getCurrentHealth() < stats.getHealth() ){
         m_player -> Heal(hp);
+        printf("you have recovered %d hp\n", hp);
+        printf("current hp: %d\n", stats.getCurrentHealth());
+        }
+        else{
+        printf("you are fearless entering the next room\n");
+        }
     }
    
 }
