@@ -185,12 +185,7 @@ void Room::Enemies(){
         UnlockedDoor();
     }
 }
-void Room::Enemies(){
-    if(m_brawler == nullptr && m_hunter == nullptr)
-    {
-        UnlockedDoor();
-    }
-}
+
 void Room::Update()
 {
    if (m_player)
